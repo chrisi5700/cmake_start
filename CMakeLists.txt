@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 project(test_project)
 
-set(CMAKE_CXX_STANDARD 26)
-
 
 function(target_add_warnings target)
 if (MSVC)
