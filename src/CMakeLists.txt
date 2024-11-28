@@ -2,8 +2,8 @@
 
 
 # Library example
-# add_library(main file.cpp ../include/LibName/file.hpp)
-# target_include_directories(main PUBLIC  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+# add_library(main file.cpp $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/LibName/file.hpp)
+# target_include_directories(main PUBLIC  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 #                                         $<INSTALL_INTERFACE:include>) # fancy but just to make it folder structure independent
 #         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR} is basically just the location of the top level CMake file
 # target_compile_features(main PUBLIC cxx_std_23) # set cmake standard for the target
