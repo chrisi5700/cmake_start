@@ -33,4 +33,4 @@ function(add_test_executable TARGET_NAME SRC_FILES)
     catch_discover_tests(${TARGET_NAME})
 endfunction()
 
-add_test_executable(example_test example_test.cpp)
+add_test_executable(example_test example_test.cpp) # creates a test adds asan, warnings and links with catch2.3 then makes test available
