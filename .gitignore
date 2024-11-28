@@ -1,0 +1,51 @@
+# Ignore build directories
+cmake-build-*/
+
+# CLion-specific
+.idea/
+.idea/*
+.idea/**
+
+# Exclude project files (can be regenerated)
+CMakeLists.txt.user
+*.iml
+
+# Ignore compiled binary files
+*.out
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Ignore CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Ignore generated testing files (like from Catch2 or gtest)
+Testing/
+test_output/
+
+# Ignore generated benchmarking files
+benchmark_output/
+
+# Ignore any logs or temporary files
+*.log
+*.tmp
+
+# Ignore CLion workspace logs and directories
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+
+# Ignore VSCode if you use it alongside CLion
+.vscode/
+
+# Ignore Nix store links in your project directory (if using Nix)
+result/
