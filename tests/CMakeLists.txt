@@ -13,22 +13,8 @@ function(add_test_executable TARGET_NAME SRC_FILES)
     target_link_libraries(${TARGET_NAME} Catch2::Catch2WithMain)
 
     # Add warning flags based on the compiler
-    if (MSVC)
-        # MSVC warning options
-        target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
-    else()
-        # GCC/Clang warning options
-        target_compile_options(${TARGET_NAME} PRIVATE
-                -Wall        # Enable all common warnings
-                -Wextra      # Enable extra warnings
-                -Wpedantic   # Enable strict ISO compliance warnings
-                -Werror      # Treat all warnings as errors
-        )
-        # Enable address sanitizer
-        target_compile_options(${TARGET_NAME} PRIVATE -fsanitize=address)
-        target_link_options(${TARGET_NAME} PRIVATE -fsanitize=address)
-    endif()
-
+    target_add_warnings(${TARGET_NAME})
+    target_add_sanitizer(${TARGET_NAME})
     # Register the test with CTest
     catch_discover_tests(${TARGET_NAME})
 endfunction()
