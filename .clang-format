@@ -1,0 +1,46 @@
+BasedOnStyle: Microsoft
+AccessModifierOffset: 1
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignTrailingComments: true
+AlignOperands: true
+AllowAllConstructorInitializersOnNextLine: true
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: BeforeComma
+BreakStringLiterals: true
+ColumnLimit: 120
+IndentWidth: 4
+TabWidth: 4
+UseTab: Always
+PointerAlignment: Left
+IndentCaseLabels: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceAfterTemplateKeyword: true
+SpaceBeforeCpp11BracedList: false
+SortIncludes: CaseInsensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: "^<.*>$"
+    Priority: 1
+  - Regex: "^.*$"
+    Priority: 2
+    SortPriority: 2
+  - Regex: "^\".*$"
+    Priority: 3
+FixNamespaceComments: true
+NamespaceIndentation: None
+IndentPPDirectives: None
+DerivePointerAlignment: false
