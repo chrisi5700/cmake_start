@@ -17,6 +17,7 @@ function(add_test_executable TARGET_NAME SRC_FILES)
     target_add_sanitizer(${TARGET_NAME})
     # Register the test with CTest
     catch_discover_tests(${TARGET_NAME})
+    target_compile_features(${TARGET_NAME} PRIVATE cxx_std_20)
 endfunction()
 
-add_test_executable(example_test example_test.cpp) # creates a test adds asan, warnings and links with catch2.3 then makes test available
+add_test_executable(example_test example_test.cpp TestTypes.hpp) # creates a test adds asan, warnings and links with catch2.3 then makes test available

@@ -49,3 +49,4 @@ benchmark_output/
 
 # Ignore Nix store links in your project directory (if using Nix)
 result/
+flake.lock

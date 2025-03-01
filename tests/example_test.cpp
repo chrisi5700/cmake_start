@@ -5,6 +5,7 @@
 // Catch2 includes
 #include <catch2/catch_test_macros.hpp>
 #include <stdexcept>
+#include "TestTypes.hpp"
 
 // A simple function to test
 int divide(int numerator, int denominator) {

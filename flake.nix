@@ -1,37 +1,33 @@
 {
-  description = "Basic C++ Template Project with libgcc, CMake, Google Benchmark, and Catch2";
+  description = "C++ Development with Nix in 2023";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
-    utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, utils }:
-    utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in {
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      # This is the list of architectures that work with this project
+      systems = [
+        "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"
+      ];
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+
+        # devShells.default describes the default shell with C++, cmake, boost,
+        # and catch2
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            gcc
-            cmake
+          packages = with pkgs; [
+            # C++ Compiler is already part of stdenv
+            catch2
             gbenchmark
-            catch2_3
-            libgcc
-            git
+            cmake
             ninja
-          ];
 
-          nativeBuildInputs = with pkgs; [ 
-            gdb 
-            valgrind 
           ];
-
           shellHook = ''
-            echo "Development environment for C++ template project with Catch2 and Google Benchmark is ready."
           '';
         };
 
-      }
-    );
+      };
+    };
 }
