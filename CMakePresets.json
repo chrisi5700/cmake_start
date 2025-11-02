@@ -1,0 +1,100 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "description": "Base configuration with common settings",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_COMPILER_WARNINGS": "ON"
+      }
+    },
+    {
+      "name": "dev",
+      "inherits": "base",
+      "description": "Development build: Debug, warnings enabled, no sanitizers",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TREAT_WARNINGS_AS_ERRORS": "OFF",
+        "ENABLE_SANITIZER_ADDRESS": "OFF",
+        "ENABLE_SANITIZER_THREAD": "OFF",
+        "ENABLE_SANITIZER_UNDEFINED": "OFF",
+        "ENABLE_LTO": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "base",
+      "description": "Release build: Optimized, warnings-as-errors, LTO enabled",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TREAT_WARNINGS_AS_ERRORS": "ON",
+        "ENABLE_SANITIZER_ADDRESS": "OFF",
+        "ENABLE_SANITIZER_THREAD": "OFF",
+        "ENABLE_SANITIZER_UNDEFINED": "OFF",
+        "ENABLE_LTO": "ON"
+      }
+    },
+    {
+      "name": "vcpkg",
+      "hidden": true,
+      "description": "Adds vcpkg toolchain (set VCPKG_ROOT environment variable)",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "VCPKG_FEATURE_FLAGS": "manifests,binarycaching"
+      }
+    },
+    {
+      "name": "dev-vcpkg",
+      "inherits": ["dev", "vcpkg"],
+      "description": "Development build with vcpkg dependency management"
+    },
+    {
+      "name": "release-vcpkg",
+      "inherits": ["release", "vcpkg"],
+      "description": "Release build with vcpkg dependency management"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "jobs": 0
+    },
+    {
+      "name": "dev-vcpkg",
+      "configurePreset": "dev-vcpkg",
+      "jobs": 0
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "jobs": 0
+    },
+    {
+      "name": "release-vcpkg",
+      "configurePreset": "release-vcpkg",
+      "jobs": 0
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "clion-vcpkg",
+      "hidden": true,
+      "toolchainFile": "$env{HOME}/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "VCPKG_FEATURE_FLAGS": "manifests,binarycaching"
+      }
+    },
+    {
+      "name": "dev-clion",
+      "inherits": ["dev", "clion-vcpkg"],
+      "description": "Regular development when using CLion with the bundled VCPKG"
+    },
+    {
+      "name": "dev-asan",
+      "inherits": "dev",
+      "description": "Development build with AddressSanitizer for memory safety testing",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_ADDRESS": "ON"
+      }
+    },
+    {
+      "name": "dev-asan-clion",
+      "inherits": ["dev-asan", "clion-vcpkg"],
+      "description": "Development build with AddressSanitizer and CLion vcpkg"
+    },
+    {
+      "name": "dev-tsan",
+      "inherits": "dev",
+      "description": "Development build with ThreadSanitizer for data race detection",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_THREAD": "ON"
+      }
+    },
+    {
+      "name": "dev-tsan-clion",
+      "inherits": ["dev-tsan", "clion-vcpkg"],
+      "description": "Development build with ThreadSanitizer and CLion vcpkg"
+    },
+    {
+      "name": "dev-ubsan",
+      "inherits": "dev",
+      "description": "Development build with UndefinedBehaviorSanitizer",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_UNDEFINED": "ON"
+      }
+    },
+    {
+      "name": "dev-ubsan-clion",
+      "inherits": ["dev-ubsan", "clion-vcpkg"],
+      "description": "Development build with UndefinedBehaviorSanitizer and CLion vcpkg"
+    },
+    {
+      "name": "release-asan",
+      "inherits": "release",
+      "description": "Release build with AddressSanitizer (slower, for testing)",
+      "cacheVariables": {
+        "ENABLE_SANITIZER_ADDRESS": "ON"
+      }
+    },
+    {
+      "name": "release-asan-clion",
+      "inherits": ["release-asan", "clion-vcpkg"],
+      "description": "Release build with AddressSanitizer and CLion vcpkg"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev-asan",
+      "configurePreset": "dev-asan",
+      "jobs": 0
+    },
+    {
+      "name": "dev-asan-clion",
+      "configurePreset": "dev-asan-clion",
+      "jobs": 0
+    },
+    {
+      "name": "dev-tsan",
+      "configurePreset": "dev-tsan",
+      "jobs": 0
+    },
+    {
+      "name": "dev-tsan-clion",
+      "configurePreset": "dev-tsan-clion",
+      "jobs": 0
+    },
+    {
+      "name": "dev-ubsan",
+      "configurePreset": "dev-ubsan",
+      "jobs": 0
+    },
+    {
+      "name": "dev-ubsan-clion",
+      "configurePreset": "dev-ubsan-clion",
+      "jobs": 0
+    },
+    {
+      "name": "release-asan",
+      "configurePreset": "release-asan",
+      "jobs": 0
+    },
+    {
+      "name": "release-asan-clion",
+      "configurePreset": "release-asan-clion",
+      "jobs": 0
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev-asan",
+      "configurePreset": "dev-asan",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-asan-clion",
+      "configurePreset": "dev-asan-clion",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-tsan",
+      "configurePreset": "dev-tsan",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-tsan-clion",
+      "configurePreset": "dev-tsan-clion",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-ubsan",
+      "configurePreset": "dev-ubsan",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-ubsan-clion",
+      "configurePreset": "dev-ubsan-clion",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

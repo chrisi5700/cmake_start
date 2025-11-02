@@ -53,7 +53,7 @@ The `src/` directory is where you define CMake libraries for your project. Here 
 #### Basic Library Definition
 
 ```cmake
-add_library(MyLib src/mylib.cpp src/mylib.hpp)
+target_add_library(MyLib src/mylib.cpp src/mylib.hpp)
 
 target_include_directories(MyLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  # During build
@@ -74,7 +74,7 @@ target_compile_features(MyLib PUBLIC cxx_std_23)
 For libraries with only headers (templates, inline functions):
 
 ```cmake
-add_library(HeaderOnlyLib INTERFACE)
+target_add_library(HeaderOnlyLib INTERFACE)
 
 target_include_directories(HeaderOnlyLib INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -86,24 +86,12 @@ target_compile_features(HeaderOnlyLib INTERFACE cxx_std_23)
 
 #### Setting C++ Standard
 
-Explicitly set the C++ standard per target:
+Explicitly set the C++ for all presets you can change this line in ``CMakePresets.json`` for the `base` preset:
 
-```cmake
-# C++23 (latest)
-target_compile_features(MyLib PUBLIC cxx_std_23)
-
-# C++20 (stable)
-target_compile_features(MyLib PUBLIC cxx_std_20)
+```json lines
+  "CMAKE_CXX_STANDARD": "23" -> "20" 
 ```
 
-#### Using Custom Helper Functions
-
-The root CMakeLists.txt provides utility functions:
-
-```cmake
-target_add_warnings(MyLib)      # Add strict compiler warnings
-target_add_sanitizer(MyLib)     # Add AddressSanitizer for memory checks
-```
 
 ### `/tests` - Unit Tests
 
