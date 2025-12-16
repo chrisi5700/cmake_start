@@ -9,7 +9,7 @@ cmake-build-*/
 # Exclude project files (can be regenerated)
 CMakeLists.txt.user
 *.iml
-
+.claude
 # Ignore compiled binary files
 *.out
 *.o
@@ -50,3 +50,4 @@ benchmark_output/
 # Ignore Nix store links in your project directory (if using Nix)
 result/
 flake.lock
+build
