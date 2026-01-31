@@ -8,7 +8,7 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD": "20",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "ENABLE_COMPILER_WARNINGS": "ON"
       }
@@ -19,10 +19,33 @@
       "description": "Development build: Debug, warnings enabled, no sanitizers",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CPPCHECK": "ON",
+        "ENABLE_COVERAGE": "ON",
+        "ENABLE_CCACHE": "ON",
+        "STRICT_MODE": "OFF",
         "TREAT_WARNINGS_AS_ERRORS": "OFF",
-        "ENABLE_SANITIZER_ADDRESS": "OFF",
+        "ENABLE_SANITIZER_ADDRESS": "ON",
+        "ENABLE_SANITIZER_UNDEFINED": "ON",
         "ENABLE_SANITIZER_THREAD": "OFF",
-        "ENABLE_SANITIZER_UNDEFINED": "OFF",
+        "ENABLE_LTO": "OFF"
+      }
+    },
+    {
+      "name": "llm",
+      "inherits": "base",
+      "description": "Maximal safety for LLM usage: Debug, warnings enabled, sanitizers enabled",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CPPCHECK": "ON",
+        "ENABLE_COVERAGE": "ON",
+        "ENABLE_CCACHE": "ON",
+        "STRICT_MODE": "ON",
+        "TREAT_WARNINGS_AS_ERRORS": "ON",
+        "ENABLE_SANITIZER_ADDRESS": "ON",
+        "ENABLE_SANITIZER_UNDEFINED": "ON",
+        "ENABLE_SANITIZER_THREAD": "OFF",
         "ENABLE_LTO": "OFF"
       }
     },
@@ -54,6 +77,11 @@
       "description": "Development build with vcpkg dependency management"
     },
     {
+      "name": "llm-vcpkg",
+      "inherits": ["llm", "vcpkg"],
+      "description": "LLM safe build with vcpkg dependency management"
+    },
+    {
       "name": "release-vcpkg",
       "inherits": ["release", "vcpkg"],
       "description": "Release build with vcpkg dependency management"
@@ -68,6 +96,16 @@
     {
       "name": "dev-vcpkg",
       "configurePreset": "dev-vcpkg",
+      "jobs": 0
+    },
+    {
+      "name": "llm",
+      "configurePreset": "llm",
+      "jobs": 0
+    },
+    {
+      "name": "llm-vcpkg",
+      "configurePreset": "llm-vcpkg",
       "jobs": 0
     },
     {
@@ -90,11 +128,31 @@
       }
     },
     {
+      "name": "llm",
+      "configurePreset": "llm",
+      "output": {"outputOnFailure": true}
+    },
+    {
       "name": "release",
       "configurePreset": "release",
       "output": {
         "outputOnFailure": true
       }
+    },
+    {
+      "name": "dev-vcpkg",
+      "configurePreset": "dev-vcpkg",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "llm-vcpkg",
+      "configurePreset": "llm-vcpkg",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "release-vcpkg",
+      "configurePreset": "release-vcpkg",
+      "output": {"outputOnFailure": true}
     }
   ]
 }

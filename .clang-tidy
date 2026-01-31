@@ -1,0 +1,91 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  
+  modernize-*,
+  -modernize-return-braced-init-list,
+  -modernize-use-trailing-return-type,
+  
+  performance-*,
+  
+  readability-*,
+  -readability-uppercase-literal-suffix,
+
+  
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '^(?!.*/usr/)(?!.*/vcpkg_installed/).*'  # Exclude system/vcpkg
+FormatStyle: file
+
+CheckOptions:
+  # Naming conventions
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberPrefix
+    value: 'm_'
+
+
+  # Only STATIC constexpr should be UPPER_CASE
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.StaticConstantCase
+    value: UPPER_CASE
+
+  # Magic numbers configuration
+  - key: readability-magic-numbers.IgnoredIntegerValues
+    value: '0;1;2;3;4;8;16;32;64;100;128;256;512;1024'
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: '0.0;1.0;2.0;0.5'
+
+  # Function size limits
+  - key: readability-function-size.LineThreshold
+    value: '100'
+  - key: readability-function-size.StatementThreshold
+    value: '50'
+  - key: readability-function-size.BranchThreshold
+    value: '15'
+  - key: readability-function-size.ParameterThreshold
+    value: '8'
+
+  # Cognitive complexity limit
+  - key: readability-function-cognitive-complexity.Threshold
+    value: '25'
+
+  # Identifier length limits
+  - key: readability-identifier-naming.MinimumVariableNameLength
+    value: '2'
+  - key: readability-identifier-naming.MinimumParameterNameLength
+    value: '2'
+  - key: readability-identifier-naming.IgnoredVariableNames
+    value: 'i|j|k|x|y|z|it|id|fd|_'
+  - key: readability-identifier-naming.IgnoredParameterNames
+    value: 'x|y|z|_'
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: 'i|j|k|x|y|z|it|id|fd|_'
+  - key: readability-identifier-length.IgnoredParameterNames
+    value: 'x|y|z|_'

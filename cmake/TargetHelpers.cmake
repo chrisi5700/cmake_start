@@ -15,6 +15,8 @@
 #   target_add_library(my_lib src/lib.cpp src/helper.cpp)
 
 include(CompilerSettings)
+include(CompilerTooling)
+
 
 function(target_add_executable target_name)
     add_executable(${target_name} ${ARGN})
@@ -46,6 +48,19 @@ function(target_add_executable target_name)
     if(ENABLE_LTO)
         apply_lto(${target_name})
     endif()
+
+    if(ENABLE_CLANG_TIDY)
+        apply_clang_tidy(${target_name})
+    endif()
+
+    if(ENABLE_CPPCHECK)
+        apply_cppcheck(${target_name})
+    endif()
+
+    # Apply coverage if enabled
+    if(ENABLE_COVERAGE)
+        apply_coverage(${target_name})
+    endif()
 endfunction()
 
 function(target_add_library target_name)
@@ -54,7 +69,7 @@ function(target_add_library target_name)
     set(lib_type "STATIC")
     set(sources ${ARGN})
 
-    if(ARGN MATCHES "^(SHARED|STATIC|OBJECT|INTERFACE|MODULE|UNKNOWN)")
+    if(ARGN MATCHES "^(SHARED|STATIC|OBJECT|INTERFACE|MODULE)")
         list(GET ARGN 0 lib_type)
         list(REMOVE_AT sources 0)
     endif()
@@ -89,6 +104,19 @@ function(target_add_library target_name)
         # Apply LTO if enabled
         if(ENABLE_LTO)
             apply_lto(${target_name})
+        endif()
+
+        if(ENABLE_CLANG_TIDY)
+            apply_clang_tidy(${target_name})
+        endif()
+
+        if(ENABLE_CPPCHECK)
+            apply_cppcheck(${target_name})
+        endif()
+
+        # Apply coverage if enabled
+        if(ENABLE_COVERAGE)
+            apply_coverage(${target_name})
         endif()
     endif()
 endfunction()
