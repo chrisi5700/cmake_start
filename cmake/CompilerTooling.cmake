@@ -75,8 +75,6 @@ function(apply_coverage target_name)
         target_compile_options(${target_name} PRIVATE
                 --coverage
                 -fno-inline
-                -fno-inline-small-functions
-                -fno-default-inline
         )
         target_link_options(${target_name} PRIVATE --coverage)
         message(STATUS "Coverage enabled for ${target_name}")
