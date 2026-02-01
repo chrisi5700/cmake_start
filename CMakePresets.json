@@ -86,10 +86,21 @@
     },
     {
       "name": "dev-vcpkg-msvc",
-      "inherits": [
-        "dev",
-        "vcpkg"
-      ],
+      "inherits": ["base", "vcpkg"],
+
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_CLANG_TIDY": "OFF",
+        "ENABLE_CPPCHECK": "OFF",
+        "ENABLE_COVERAGE": "OFF",
+        "ENABLE_CCACHE": "ON",
+        "STRICT_MODE": "ON",
+        "TREAT_WARNINGS_AS_ERRORS": "ON",
+        "ENABLE_SANITIZER_ADDRESS": "OFF",
+        "ENABLE_SANITIZER_UNDEFINED": "OFF",
+        "ENABLE_SANITIZER_THREAD": "OFF",
+        "ENABLE_LTO": "OFF"
+      },
       "generator": "Visual Studio 17 2022",
       "description": "Development build with vcpkg for MSVC CI"
     },
