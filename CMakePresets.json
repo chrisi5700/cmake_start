@@ -8,7 +8,7 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_STANDARD": "23",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "ENABLE_COMPILER_WARNINGS": "ON"
       }
@@ -55,10 +55,15 @@
       "description": "Release build: Optimized, warnings-as-errors, LTO enabled",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CPPCHECK": "ON",
+        "ENABLE_COVERAGE": "OFF",
+        "ENABLE_CCACHE": "ON",
+        "STRICT_MODE": "ON",
         "TREAT_WARNINGS_AS_ERRORS": "ON",
         "ENABLE_SANITIZER_ADDRESS": "OFF",
-        "ENABLE_SANITIZER_THREAD": "OFF",
         "ENABLE_SANITIZER_UNDEFINED": "OFF",
+        "ENABLE_SANITIZER_THREAD": "OFF",
         "ENABLE_LTO": "ON"
       }
     },

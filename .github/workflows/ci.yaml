@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq clang-format
+
+      - name: Check formatting
+        run: |
+          find src tests \( -name "*.cpp" -o -name "*.hpp" \) | \
+            xargs clang-format --dry-run --Werror
+
+  clang:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '6d7bf7ef2193e2d1c5798a5ff8811d533104c861'
+
+      - name: Install Clang + analysis tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq clang clang-tidy cppcheck
+
+      - uses: lukka/run-cmake@v10
+        with:
+          configurePreset: dev-vcpkg
+          configurePresetAdditionalArgs: >
+            ["-DCMAKE_CXX_COMPILER=clang++",
+             "-DENABLE_CLANG_TIDY=ON",
+             "-DENABLE_CPPCHECK=ON"]
+          buildPreset: dev-vcpkg
+
+      - name: Test
+        run: ctest --test-dir build/dev-vcpkg --output-on-failure
+
+  gcc-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '6d7bf7ef2193e2d1c5798a5ff8811d533104c861'
+
+      - name: Install GCC + lcov
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gcc g++ lcov
+
+      - uses: lukka/run-cmake@v10
+        with:
+          configurePreset: dev-vcpkg
+          configurePresetAdditionalArgs: >
+            ["-DCMAKE_CXX_COMPILER=g++"]
+          buildPreset: dev-vcpkg
+
+      - name: Run tests + coverage
+        run: ./run_test.sh build/dev-vcpkg example_test
+
+      - name: Upload coverage
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/dev-vcpkg/coverage_filtered.info
+
+  msvc:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '6d7bf7ef2193e2d1c5798a5ff8811d533104c861'
+
+      - uses: lukka/run-cmake@v10
+        with:
+          configurePreset: dev-vcpkg
+          buildPreset: dev-vcpkg
+
+      - name: Test
+        run: ctest --test-dir build/dev-vcpkg --output-on-failure

@@ -18,7 +18,10 @@ echo "=== Running test: $TEST_TARGET ==="
 
 echo ""
 echo "=== Capturing coverage data ==="
-lcov --capture --directory "$BUILD_DIR" --output-file "$BUILD_DIR/coverage.info" --quiet
+lcov --capture --directory "$BUILD_DIR" \
+    --output-file "$BUILD_DIR/coverage.info" \
+    --ignore-errors inconsistent \
+    --quiet
 
 echo ""
 echo "=== Filtering coverage data ==="
@@ -26,7 +29,6 @@ lcov --remove "$BUILD_DIR/coverage.info" \
     '/usr/*' \
     '*/tests/*' \
     '*/build/*' \
-    '*/vcpkg_installed/*' \
     --output-file "$BUILD_DIR/coverage_filtered.info" --quiet
 
 echo ""

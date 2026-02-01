@@ -8,8 +8,6 @@
 #include <cstdio>
 #include <source_location>
 
-
-
 /**
  *
  * @tparam T Type to be printed
@@ -33,14 +31,8 @@ inline void print_function_name(const std::source_location source_loc = {})
 struct Noisy
 {
 	Noisy() { print_function_name(); }
-	Noisy(const Noisy&)
-	{
-		print_function_name();
-	}
-	Noisy(Noisy&&) noexcept
-	{
-		print_function_name();
-	}
+	Noisy(const Noisy&) { print_function_name(); }
+	Noisy(Noisy&&) noexcept { print_function_name(); }
 	Noisy& operator=(const Noisy&)
 	{
 		print_function_name();

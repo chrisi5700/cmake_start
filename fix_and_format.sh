@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BUILD_DIR="${1:-build/dev-vcpkg}"
+BUILD_DIR="${1:-build/llm-vcpkg}"
 TARGET="${2:-src}"
 
 echo "==================================="
