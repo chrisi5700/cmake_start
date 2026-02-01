@@ -89,8 +89,10 @@ jobs:
 
       - uses: lukka/run-cmake@v10
         with:
-          configurePreset: dev-vcpkg
-          buildPreset: dev-vcpkg
+            configurePreset: dev-vcpkg
+            configurePresetAdditionalArgs: >
+              ["-DCMAKE_CXX_COMPILER=cl"]
+            buildPreset: dev-vcpkg
 
       - name: Test
         run: ctest --test-dir build/dev-vcpkg --output-on-failure
