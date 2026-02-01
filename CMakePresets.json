@@ -78,17 +78,35 @@
     },
     {
       "name": "dev-vcpkg",
-      "inherits": ["dev", "vcpkg"],
+      "inherits": [
+        "dev",
+        "vcpkg"
+      ],
       "description": "Development build with vcpkg dependency management"
     },
     {
+      "name": "dev-vcpkg-msvc",
+      "inherits": [
+        "dev",
+        "vcpkg"
+      ],
+      "generator": "Visual Studio 17 2022",
+      "description": "Development build with vcpkg for MSVC CI"
+    },
+    {
       "name": "llm-vcpkg",
-      "inherits": ["llm", "vcpkg"],
+      "inherits": [
+        "llm",
+        "vcpkg"
+      ],
       "description": "LLM safe build with vcpkg dependency management"
     },
     {
       "name": "release-vcpkg",
-      "inherits": ["release", "vcpkg"],
+      "inherits": [
+        "release",
+        "vcpkg"
+      ],
       "description": "Release build with vcpkg dependency management"
     }
   ],
@@ -101,6 +119,11 @@
     {
       "name": "dev-vcpkg",
       "configurePreset": "dev-vcpkg",
+      "jobs": 0
+    },
+    {
+      "name": "dev-vcpkg-msvc",
+      "configurePreset": "dev-vcpkg-msvc",
       "jobs": 0
     },
     {
@@ -135,7 +158,9 @@
     {
       "name": "llm",
       "configurePreset": "llm",
-      "output": {"outputOnFailure": true}
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "release",
@@ -147,17 +172,30 @@
     {
       "name": "dev-vcpkg",
       "configurePreset": "dev-vcpkg",
-      "output": {"outputOnFailure": true}
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dev-vcpkg-msvc",
+      "configurePreset": "dev-vcpkg-msvc",
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "llm-vcpkg",
       "configurePreset": "llm-vcpkg",
-      "output": {"outputOnFailure": true}
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "release-vcpkg",
       "configurePreset": "release-vcpkg",
-      "output": {"outputOnFailure": true}
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }

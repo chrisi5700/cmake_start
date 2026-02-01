@@ -108,12 +108,10 @@ jobs:
         with:
           vcpkgGitCommitId: '6d7bf7ef2193e2d1c5798a5ff8811d533104c861'
 
-      - uses: ilammy/msvc-dev-cmd@v1
-
       - uses: lukka/run-cmake@v10
         with:
-          configurePreset: dev-vcpkg
-          buildPreset: dev-vcpkg
+          configurePreset: dev-vcpkg-msvc
+          buildPreset: dev-vcpkg-msvc
 
       - name: Test
-        run: ctest --test-dir build/dev-vcpkg --output-on-failure
+        run: ctest --test-dir build/dev-vcpkg-msvc --output-on-failure
