@@ -8,18 +8,6 @@
 #include <cstdio>
 #include <source_location>
 
-/**
- *
- * @tparam T Type to be printed
- * Outputs [T = typename]
- */
-template <class T>
-void print_type()
-{
-	static constexpr std::size_t FUNCTION_NAME_LENGTH = 18;
-	std::puts(__PRETTY_FUNCTION__ + FUNCTION_NAME_LENGTH);
-}
-
 inline void print_function_name(const std::source_location source_loc = {})
 {
 	std::puts(source_loc.function_name());
