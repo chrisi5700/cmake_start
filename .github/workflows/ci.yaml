@@ -3,9 +3,30 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'bench/**'
+      - 'playground/**'
+      - 'include/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'vcpkg.json'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
-
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'bench/**'
+      - 'playground/**'
+      - 'include/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'vcpkg.json'
+      - '.github/workflows/**'
 jobs:
   format-check:
     runs-on: ubuntu-latest
@@ -87,12 +108,12 @@ jobs:
         with:
           vcpkgGitCommitId: '6d7bf7ef2193e2d1c5798a5ff8811d533104c861'
 
+      - uses: ilammy/msvc-dev-cmd@v1
+
       - uses: lukka/run-cmake@v10
         with:
-            configurePreset: dev-vcpkg
-            configurePresetAdditionalArgs: >
-              ["-DCMAKE_CXX_COMPILER=cl"]
-            buildPreset: dev-vcpkg
+          configurePreset: dev-vcpkg
+          buildPreset: dev-vcpkg
 
       - name: Test
         run: ctest --test-dir build/dev-vcpkg --output-on-failure
