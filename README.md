@@ -1,3 +1,6 @@
+[![CI](https://github.com/chrisi5700/cmake_start/actions/workflows/ci.yml/badge.svg)](https://github.com/chrisi5700/cmake_start/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/chrisi5700/cmake_start/badge.svg?branch=main)](https://coveralls.io/repos/github/chrisi5700/cmake_start?branch=main)
+
 # CMake Starter Template
 
 This repository provides a structured C++ project template using **CMake** and **Nix flakes**.  
