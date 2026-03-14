@@ -93,11 +93,11 @@ jobs:
       - name: Run tests + coverage
         run: ./run_test.sh build/dev-vcpkg example_test
 
-      - name: Upload coverage
-        uses: coverallsapp/github-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/dev-vcpkg/coverage_filtered.info
+   #    - name: Upload coverage
+   #      uses: coverallsapp/github-action@v2
+   #      with:
+   #        github-token: ${{ secrets.GITHUB_TOKEN }}
+   #        file: build/dev-vcpkg/coverage_filtered.info
 
   msvc:
     runs-on: windows-latest
