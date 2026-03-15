@@ -12,7 +12,6 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 
-namespace veng
 {
 class Logger : public spdlog::logger
 {
@@ -45,4 +44,4 @@ public:
 		return logger;
 	}
 };
-}
+
