@@ -101,8 +101,8 @@
         "ENABLE_SANITIZER_THREAD": "OFF",
         "ENABLE_LTO": "OFF"
       },
-      "generator": "Visual Studio 17 2022",
-      "description": "Development build with vcpkg for MSVC CI"
+      "generator": "Ninja",
+      "description": "Development build with vcpkg for MSVC CI (Ninja + MSVC toolchain, set up by the dev-cmd environment so it is independent of the installed Visual Studio version)"
     },
     {
       "name": "llm-vcpkg",
