@@ -1,104 +1,105 @@
 [![CI](https://github.com/chrisi5700/cmake_start/actions/workflows/ci.yaml/badge.svg)](https://github.com/chrisi5700/cmake_start/actions/workflows/ci.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/chrisi5700/cmake_start/badge.svg?branch=main)](https://coveralls.io/repos/github/chrisi5700/cmake_start?branch=main)
 
 # CMake Starter Template
 
-This repository provides a structured C++ project template using **CMake** and **Nix flakes**.  
-It includes benchmarking, testing, and a dedicated playground for experimentation.
+A structured, modern **C++23** project template built around **CMake presets** and **vcpkg**.
+It ships with benchmarking, unit testing, static analysis, sanitizers, and a dedicated playground
+for experimentation.
 
 ---
 
 ## Features
 
-- **CMake-based project structure**
-- **Nix flake** for a reproducible development environment
-- **Google Benchmark** for performance analysis
+- **CMake preset-based workflow** (`dev`, `llm`, `release`, each with a vcpkg variant)
+- **vcpkg** manifest-mode dependency management
+- **Static analysis & sanitizers** — clang-tidy, cppcheck, ASan/UBSan, warnings-as-errors (see the `llm` preset)
 - **Catch2** for unit testing
-- **Playground** for isolated code testing
+- **Google Benchmark** for performance analysis
+- **Playground** for isolated prototyping
 - **libs/** for external or custom libraries
-
----
-
-## Development with Nix
-
-A **Nix flake** provides a consistent development environment.
-
-```sh
-nix develop
-```
 
 ---
 
 ## Building the Project
 
+Dependencies are resolved through vcpkg, so configure with one of the provided presets
+(set `VCPKG_ROOT` to your vcpkg checkout first):
+
 ```sh
-# Configure the build
-cmake -B build -DCMAKE_BUILD_TYPE=Release
+# Configure (Debug, sanitizers, static analysis)
+cmake --preset dev-vcpkg
 
 # Build all targets
-cmake --build build
+cmake --build --preset dev-vcpkg
 
 # Run tests
-ctest --test-dir build
+ctest --test-dir build/dev-vcpkg --output-on-failure
 
 # Run benchmarks
-./build/bench/bench
+./build/dev-vcpkg/bench/bench
 ```
+
+Available configure presets: `dev-vcpkg`, `llm-vcpkg`, `release-vcpkg` (plus `dev-vcpkg-msvc` for
+Visual Studio).
 
 ---
 
 ## Project Structure & Extension Guide
 
-### `/src` - Source Libraries
+### Defining targets — top-level `CMakeLists.txt`
 
-The `src/` directory is where you define CMake libraries for your project. Here are common patterns:
+Libraries and executables are declared directly in the top-level `CMakeLists.txt` with the
+`target_add_library` / `target_add_executable` helpers (defined in `cmake/TargetHelpers.cmake`),
+which automatically apply the configured warnings, sanitizers, and analysis tools. Put
+implementation files under `src/` and public headers under `include/`.
 
 #### Basic Library Definition
 
 ```cmake
-target_add_library(MyLib src/mylib.cpp src/mylib.hpp)
+target_add_library(my_lib src/my_lib.cpp)
 
-target_include_directories(MyLib PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  # During build
-    $<INSTALL_INTERFACE:include>                            # After installation
+target_include_directories(my_lib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>  # During build
+    $<INSTALL_INTERFACE:include>                    # After installation
 )
 
-target_compile_features(MyLib PUBLIC cxx_std_23)
+target_compile_features(my_lib PUBLIC cxx_std_23)
 ```
 
 **Key Concepts:**
 
-- **BUILD_INTERFACE**: Include paths used when building the project itself
-- **INSTALL_INTERFACE**: Include paths used by external projects after installation
-- **PRIVATE/PUBLIC/INTERFACE**: Controls visibility of properties to consuming targets
+- **BUILD_INTERFACE**: include paths used when building the project itself
+- **INSTALL_INTERFACE**: include paths used by external projects after installation
+- **PRIVATE/PUBLIC/INTERFACE**: controls visibility of properties to consuming targets
 
 #### Header-Only Library
 
-For libraries with only headers (templates, inline functions):
+For libraries with only headers (templates, inline functions) — this is exactly how the bundled
+`logger` target is defined:
 
 ```cmake
-target_add_library(HeaderOnlyLib INTERFACE)
+target_add_library(my_header_lib INTERFACE)
 
-target_include_directories(HeaderOnlyLib INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+target_include_directories(my_header_lib INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
-target_compile_features(HeaderOnlyLib INTERFACE cxx_std_23)
+target_compile_features(my_header_lib INTERFACE cxx_std_23)
 ```
 
-#### Setting C++ Standard
+#### Setting the C++ Standard
 
-Explicitly set the C++ for all presets you can change this line in ``CMakePresets.json`` for the `base` preset:
+The standard is set once for all presets via the `base` preset in `CMakePresets.json`:
 
-```json lines
-  "CMAKE_CXX_STANDARD": "23" -> "20" 
+```json
+  "CMAKE_CXX_STANDARD": "23"
 ```
-
 
 ### `/tests` - Unit Tests
 
-Write tests in the `tests/` directory using **Catch2**:
+Register a test executable in `tests/CMakeLists.txt` with the `add_test_executable` helper, then
+write tests using **Catch2**:
 
 ```cpp
 #include <catch2/catch_test_macros.hpp>
@@ -108,13 +109,11 @@ TEST_CASE("Addition works") {
 }
 ```
 
-Run tests:
+Run them:
 
 ```sh
-ctest --test-dir build
+ctest --test-dir build/dev-vcpkg --output-on-failure
 ```
-
-See `tests/TestTypes.hpp` for advanced testing utilities for validating C++ semantics.
 
 ### `/bench` - Benchmarks
 
@@ -144,9 +143,9 @@ int main() {
 }
 ```
 
-Compile and run:
+Build and run:
 
 ```sh
-cmake --build build
-./build/playground/playground
+cmake --build --preset dev-vcpkg
+./build/dev-vcpkg/playground/playground
 ```

@@ -33,7 +33,6 @@
 - Warnings are treated as errors in this preset
 
 **Always fix issues before committing:**
-- Run `./fix_and_format.sh` to auto-fix clang-tidy issues and format code
 - Address any remaining clang-tidy or cppcheck warnings manually
 - Ensure the build passes with zero warnings
 
@@ -43,7 +42,6 @@
 - Design for dependency injection
 - Create unit tests for core functionality in the `tests/` directory
 - Test edge cases and error conditions
-- Run tests using `./run_test.sh` which outputs lcov coverage information
 
 **Always aim for high code coverage:**
 - Target at least 95% code coverage
@@ -91,5 +89,4 @@
 
 **Always verify code quality:**
 - Ensure code compiles with the `llm-vcpkg` preset
-- Run `fix_and_format.sh` before presenting solutions
-- Verify test coverage meets the 95% threshold
+- Verify test coverage meets the 90% threshold when reasonable

@@ -20,7 +20,23 @@ set(ENABLE_COVERAGE OFF CACHE BOOL "Enable code coverage instrumentation")
 set(STRICT_MODE OFF CACHE BOOL "Enable all checks and treat everything as errors")
 set(ENABLE_CCACHE OFF CACHE BOOL "Enable ccache for faster rebuilds")
 
-add_subdirectory(src)
+# Enable testing at the top level so `ctest --test-dir build/<preset>` discovers
+# the tests registered in tests/ (without this, ctest finds no root CTestTestfile
+# and silently reports success having run nothing).
+enable_testing()
+
+# ---- Targets ----
+# Library/executable targets are defined here at the top level.
+find_package(fmt CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+
+# Header-only logging library (see include/Logger.hpp).
+target_add_library(logger INTERFACE)
+target_include_directories(logger INTERFACE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(logger INTERFACE spdlog::spdlog fmt::fmt)
+target_compile_definitions(logger INTERFACE LOG_FILE="logging.txt")
+target_compile_features(logger INTERFACE cxx_std_23)
+
 add_subdirectory(playground)
 add_subdirectory(bench)
 add_subdirectory(tests)

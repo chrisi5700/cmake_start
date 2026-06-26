@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Always run from the repo root so the relative defaults below resolve.
+cd "$(dirname "$0")/.."
+
 BUILD_DIR="${1:-build/llm-vcpkg}"
 TARGET="${2:-src}"
 

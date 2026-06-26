@@ -91,7 +91,7 @@ jobs:
           buildPreset: dev-vcpkg
 
       - name: Run tests + coverage
-        run: ./run_test.sh build/dev-vcpkg example_test
+        run: ./scripts/run_test.sh build/dev-vcpkg example_test
 
    #    - name: Upload coverage
    #      uses: coverallsapp/github-action@v2
